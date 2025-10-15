@@ -1,0 +1,1 @@
+console.log('JS ready for full-stack!');
