@@ -1,17 +1,31 @@
-// Arrays: لیست To-Do
-let todoList = [];
+// Arrays and localStorage: ذخیره in browser
+let todoList = JSON.parse(localStorage.getItem('todoList')) || [];  // get from storage
 
-// Function: اضافه task
+// Function: add task
 function addTodo(task) {
-  todoList.push(task);  // push: اضافه
-  console.log('Added:', task);
+  todoList.push(task);  // push
+  localStorage.setItem('todoList', JSON.stringify(todoList));  // save
+  console.log('Added and saved:', task);
+  displayList();  // نمایش بروز
 }
 
-// مثال
-addTodo('یادگیری JS');
-addTodo('ساخت To-Do');
+// Function: نمایش لیست
+function displayList() {
+  const list = document.getElementById('todoList');
+  list.innerHTML = '';  // پاک
+  todoList.forEach(item => {
+    const li = document.createElement('li');
+    li.textContent = item;
+    list.appendChild(li);  // اضافه
+  });
+}
 
-// Loops: چاپ
-todoList.forEach(item => console.log('Todo:', item));
+// Events: onclick button
+document.getElementById('addBtn').addEventListener('click', function() {
+  const task = prompt('Task بنویس:');  // prompt for input
+  if (task) addTodo(task);  // if not empty
+});
 
-console.log('Full list:', todoList);
+// Initial display
+displayList();  // بارگذاری
+console.log('Full list from storage:', todoList);
